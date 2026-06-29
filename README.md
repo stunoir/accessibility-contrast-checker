@@ -2,8 +2,6 @@
 
 A WCAG contrast ratio checker built with React 19 and Vite. Enter a foreground and background colour as hex values and see whether the combination passes or fails WCAG 2.2 AA and AAA requirements for normal and large text.
 
-Built as the first project in a structured React learning series focused on accessibility tooling.
-
 ---
 
 ## What it does
