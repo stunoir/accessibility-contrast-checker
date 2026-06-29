@@ -1,0 +1,61 @@
+@use "sass:math";
+@use "variables";
+
+// ============================================================================
+//== scss functions
+//== requires: @use '../abstracts/functions';
+// ============================================================================
+
+
+// ----------------------------------------------------------------------------
+//== clamp-value($min-size, $max-size, $min-vw, $max-vw)
+//
+//== creates a responsive size that scales between a minimum and maximum value
+//== based on viewport width, using the css clamp() function.
+//
+//== params:
+//==   $min-size - the smallest allowed size
+//==   $max-size - the largest allowed size
+//==   $min-vw   - viewport width at which scaling starts (default: 20rem)
+//==   $max-vw   - viewport width at which scaling stops (default: $layout-container-max-width)
+//
+//== returns: css clamp() value
+//
+//== usage:
+//==   .my-class {
+//==     font-size: functions.clamp-value(1.5rem, 2.5rem);
+//==   }
+// ----------------------------------------------------------------------------
+
+@function clamp-value($min-size, $max-size, $min-vw: 20rem, $max-vw: variables.$layout-container-max-width) {
+  $slope: math.div(($max-size - $min-size), ($max-vw - $min-vw));
+  $intercept: $min-size - ($slope * $min-vw);
+  @return clamp(#{$min-size}, #{$intercept} + #{($slope * 100vw)}, #{$max-size});
+}
+
+
+// ----------------------------------------------------------------------------
+//== inner-radius($outer-radius, $padding)
+//
+//== calculates a visually appropriate inner border-radius based on the outer
+//== radius of a parent container, accounting for padding between the two.
+//
+//== params:
+//==   $outer-radius - the parent container's border-radius (e.g. 1.25rem)
+//==   $padding      - gap between element and parent (default: 0.0625rem / 1px)
+//
+//== returns: single radius value (e.g. 1.1875rem)
+//
+//== usage:
+//==   .my-card {
+//==     border-radius: 1.25rem;
+//==
+//==     .card-content {
+//==       border-radius: functions.inner-radius(1.25rem); // returns 1.1875rem
+//==     }
+//==   }
+// ----------------------------------------------------------------------------
+
+@function inner-radius($outer-radius, $padding: 0.0625rem) {
+  @return $outer-radius - $padding;
+}

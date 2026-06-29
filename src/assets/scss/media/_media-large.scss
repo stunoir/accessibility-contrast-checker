@@ -1,0 +1,25 @@
+@use "../abstracts/mixins";
+
+//== large and up
+@include mixins.for-size(large) {
+
+  .pad-start {
+    padding-inline-start: 2rem;
+  }
+
+  .pad-end {
+    padding-inline-end: 2rem;
+  }
+
+  .margin-start {
+    margin-inline-start: 4rem;
+  }
+
+  .margin-end {
+    margin-inline-end: 4rem;
+  }
+
+}
+
+//== large only
+@media screen and (min-width: 64em) and (max-width: 74.9375em) {}

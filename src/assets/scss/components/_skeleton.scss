@@ -1,0 +1,14 @@
+//== skeleton loading placeholder - uses skeletonPulser animation from _animations.scss
+.skeleton {
+  --skeleton-radius: .25rem;
+  --skeleton-width: 100%;
+  --skeleton-height: 2rem;
+  --skeleton-surface: var(--colour-surface-skeleton);
+
+  background-color: var(--skeleton-surface);
+  border-radius: var(--skeleton-radius);
+  margin-block-end: .5rem;
+  height: var(--skeleton-height);
+  width: var(--skeleton-width);
+  animation: skeletonPulser 3s ease infinite;
+}

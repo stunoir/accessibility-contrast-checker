@@ -1,0 +1,267 @@
+.content-flow {
+  --content-flow-spacing: 1.5rem;
+  --content-flow-code-surface: #f2f2f2;
+  --content-flow-li-spacing: 0.625rem;
+
+  //== clearfix for floated elements (e.g. floated images within rich text)
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  //== reset all direct child margins
+  >*,
+  picture>* {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  //== add vertical spacing only between adjacent elements (owl selector)
+  >*+*,
+  picture>*+* {
+    margin-block-start: var(--content-flow-spacing);
+  }
+
+  dialog {
+    margin-block: auto;
+  }
+
+  //== optional: increase spacing above headings
+  // :is(h1, h2, h3, h4, h5, h6) {
+  //   --content-flow-spacing: 3rem;
+  // }
+
+  //== optional: reset spacing when a subheading precedes a heading
+  // .subheading+ :is(h1, h2, h3, h4, h5, h6) {
+  //   --content-flow-spacing: 1.5rem;
+  // }
+
+  //== optional: constrain paragraph line length for readability
+  // p {
+  //   max-width: 60ch;
+  // }
+
+  >ul,
+  >ol {
+    &:not([class]) {
+      >*+* {
+        margin-block-start: 10px;
+      }
+    }
+  }
+
+  //== code blocks and inline code
+  .code-block,
+  .code-inline,
+  code {
+    background-color: var(--content-flow-code-surface);
+    font-size: 0.9rem;
+    font-family: var(--font-family-body);
+  }
+
+  pre {
+    background-color: var(--content-flow-code-surface);
+    padding: 1rem;
+  }
+
+  .video-container {
+    position: relative;
+    aspect-ratio: 16/9;
+
+    iframe,
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+
+// ============================================================================
+//== reference - legacy .wysiwyg pattern (replaced by .content-flow above)
+// ============================================================================
+
+// $wysiwyg-container-padding: 0;
+// $wysiwyg-container-background-color: transparent;
+// $wysiwyg-container-item-margin: 0 0 1.875rem 0;
+
+// $wysiwyg-ul-padding: 0 0 0 0;
+// $wysiwyg-ul-nested-margin-top: 0.625rem;
+// $wysiwyg-ul-nested-margin-bottom: 0.625rem;
+
+// $wysiwyg-dl-gap: 0.625rem;
+// $wysiwyg-dl-dt-font-weight: 700;
+
+// $wysiwyg-img-right-width: 45%;
+// $wysiwyg-img-right-margin-left: 1.875rem;
+// $wysiwyg-img-left-width: 45%;
+// $wysiwyg-img-left-margin-right: 1.875rem;
+
+// $wysiwyg-hr-margin: 1.875rem 1.875rem;
+// $wysiwyg-hr-border-color: #1a1a1a;
+
+// $wysiwyg-blockquote-background-color: #fff;
+// $wysiwyg-blockquote-padding: 0 1.875rem;
+// $wysiwyg-blockquote-padding-sm: 0.9375rem;
+// $wysiwyg-blockquote-gap: 0.625rem;
+// $wysiwyg-blockquote-p-color: #1a1a1a;
+// $wysiwyg-blockquote-cite-color: #1a1a1a;
+// $wysiwyg-blockquote-border-left: 5px solid #1a1a1a;
+
+// $wysiwyg-inset-text-padding: 1.25;
+// $wysiwyg-inset-text-border-left: 5px solid #1a1a1a;
+
+// $wysiwyg-figure-background-color: #f2f2f2;
+// $wysiwyg-figure-padding: 1.875rem;
+// $wysiwyg-figure-padding-sm: 0.625rem;
+// $wysiwyg-figure-gap: 0.9375rem;
+// $wysiwyg-figure-figcaption-font-size: 1rem;
+
+
+// .wysiwyg {
+//   background-color: $wysiwyg-container-background-color;
+//   padding: $wysiwyg-container-padding;
+
+//   >* {
+//     margin-top: 0;
+//     margin-bottom: 0;
+//   }
+
+//   >*+* {
+//     margin-block-start: 1.5rem;
+//   }
+
+//   &::after {
+//     content: "";
+//     display: table;
+//     clear: both;
+//   }
+
+//   a:not([class]) {
+//     transition: opacity 0.5s;
+//     font-weight: 600;
+//     word-break: break-word;
+//     text-decoration: underline;
+
+//     &:is(:hover, :focus-visible) {
+//       opacity: 0.8;
+//     }
+//   }
+
+//   dl {
+//     display: flex;
+//     flex-direction: column;
+//     gap: $wysiwyg-dl-gap;
+
+//     dt {
+//       font-weight: $wysiwyg-dl-dt-font-weight;
+//     }
+
+//     dt,
+//     dd {
+//       margin: 0;
+//     }
+//   }
+
+//   img {
+//     width: auto;
+
+//     &.full {
+//       width: 100%;
+//     }
+
+//     &.right,
+//     &[style*="float: right;"] {
+//       float: right;
+//       width: $wysiwyg-img-right-width;
+//       margin-left: $wysiwyg-img-right-margin-left;
+//     }
+
+//     &.left,
+//     &[style*="float: left"] {
+//       float: left;
+//       width: $wysiwyg-img-left-width;
+//       margin-right: $wysiwyg-img-left-margin-right;
+//     }
+//   }
+
+//   hr {
+//     margin-block: $wysiwyg-hr-margin;
+//     border-color: $wysiwyg-hr-border-color;
+//   }
+
+//   blockquote {
+//     position: relative;
+//     display: flex;
+//     flex-direction: column;
+//     gap: $wysiwyg-blockquote-gap;
+//     padding: $wysiwyg-blockquote-padding;
+//     background-color: $wysiwyg-blockquote-background-color;
+//     border: 0;
+//     border-left: $wysiwyg-blockquote-border-left;
+
+//     @media screen and (max-width: 39.9375em) {
+//       padding: $wysiwyg-blockquote-padding-sm;
+//     }
+
+//     * {
+//       margin: 0;
+//       position: relative;
+//       z-index: 1;
+//     }
+
+//     p {
+//       color: $wysiwyg-blockquote-p-color;
+//     }
+
+//     cite {
+//       color: $wysiwyg-blockquote-cite-color;
+//     }
+//   }
+
+//   figure {
+//     width: 100%;
+//     background-color: $wysiwyg-figure-background-color;
+//     padding: $wysiwyg-figure-padding;
+//     display: flex;
+//     flex-direction: column;
+//     gap: $wysiwyg-figure-gap;
+
+//     @media screen and (max-width: 39.9375em) {
+//       padding: $wysiwyg-figure-padding-sm;
+//     }
+
+//     figcaption {
+//       background-color: transparent;
+//       font-size: $wysiwyg-figure-figcaption-font-size;
+//     }
+//   }
+
+//   .inset-text {
+//     padding: $wysiwyg-inset-text-padding;
+//     border-left: $wysiwyg-inset-text-border-left;
+//     clear: both;
+
+//     p:last-child {
+//       margin-bottom: 0;
+//     }
+//   }
+
+//   .video-container {
+//     position: relative;
+//     aspect-ratio: 16/9;
+
+//     iframe,
+//     video {
+//       position: absolute;
+//       top: 0;
+//       left: 0;
+//       width: 100%;
+//       height: 100%;
+//     }
+//   }
+// }

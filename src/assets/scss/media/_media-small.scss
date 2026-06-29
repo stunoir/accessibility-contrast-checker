@@ -1,0 +1,62 @@
+@use "../abstracts/mixins";
+
+//== small only
+@include mixins.for-size(small-only) {
+
+  //== gives a .425rem left/right on main items if wanted
+  // .wrapper-header,
+  // main {
+  //   padding-inline: .425rem;
+  // }
+
+  //== small viewport margin and padding override utilities - generates .sm-t-0 through .sm-t-9 etc.
+  @for $i from 0 through 9 {
+
+    .sm-t-#{$i} {
+      margin-top: #{$i}rem;
+    }
+
+    .sm-b-#{$i} {
+      margin-bottom: #{$i}rem;
+    }
+
+    .sm-l-#{$i} {
+      margin-left: #{$i}rem;
+    }
+
+    .sm-r-#{$i} {
+      margin-right: #{$i}rem;
+    }
+
+    .sp-t-#{$i} {
+      padding-top: #{$i}rem;
+    }
+
+    .sp-b-#{$i} {
+      padding-bottom: #{$i}rem;
+    }
+
+    .sp-l-#{$i} {
+      padding-left: #{$i}rem;
+    }
+
+    .sp-r-#{$i} {
+      padding-right: #{$i}rem;
+    }
+  }
+
+  //== disable float-based image alignment in wysiwyg content on small viewports
+  .wysiwyg {
+
+    img.right,
+    img.left {
+      float: none;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+//== iPhone X and equivalent high-DPI devices
+@media only screen and (min-width: 375px) and (max-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {}

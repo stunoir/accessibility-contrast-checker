@@ -1,0 +1,125 @@
+// ============================================================================
+//== icon font
+//== icons are generated via icomoon (https://icomoon.io)
+//== to add or update icons, import the existing project into icomoon using
+//== the files found in src/assets/icons/, make changes, then
+//== re-export and replace the font files in src/assets/icons/
+// ============================================================================
+
+
+//== @font-face declaration
+@font-face {
+  font-family: "icomoon";
+  src: url("../icons/icomoon.ttf?dlzl4g") format("truetype"), url("../icons/icomoon.woff?dlzl4g") format("woff"), url("../icons/icomoon.svg?dlzl4g#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+//== base icon styles - applied to all elements with a szicon- class
+[class^="szicon-"],
+[class*=" szicon-"] {
+  font-family: 'icomoon' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+//== ui icons
+.szicon-cross:before {
+  content: "\e90d";
+}
+
+.szicon-download:before {
+  content: "\e90b";
+}
+
+.szicon-info:before {
+  content: "\e906";
+}
+
+.szicon-warning:before {
+  content: "\e907";
+}
+
+
+//== navigation icons
+.szicon-keyboard-arrow-up:before {
+  content: "\e902";
+}
+
+.szicon-keyboard-arrow-right:before {
+  content: "\e903";
+}
+
+.szicon-keyboard-arrow-left:before {
+  content: "\e904";
+}
+
+.szicon-keyboard-arrow-down:before {
+  content: "\e905";
+}
+
+
+//== contact icons
+.szicon-phone:before {
+  content: "\e942";
+}
+
+.szicon-email:before {
+  content: "\e90e";
+}
+
+.szicon-location-map:before {
+  content: "\e90f";
+}
+
+
+//== media icons
+.szicon-play-button:before {
+  content: "\ea15";
+}
+
+.szicon-pause-button:before {
+  content: "\e90c";
+}
+
+
+//== social icons
+.szicon-social-facebook:before {
+  content: "\ea90";
+}
+
+.szicon-social-instagram:before {
+  content: "\ea92";
+}
+
+.szicon-social-linkedin:before {
+  content: "\e901";
+}
+
+.szicon-social-twitter:before {
+  content: "\ea96";
+}
+
+.szicon-social-tiktok:before {
+  content: "\e900";
+}
+
+.szicon-social-vimeo:before {
+  content: "\e908";
+}
+
+.szicon-social-youtube:before {
+  content: "\e909";
+}
+
+.szicon-social-whatsapp:before {
+  content: "\e90a";
+}

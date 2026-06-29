@@ -1,0 +1,125 @@
+@use "../abstracts/functions";
+@use "../abstracts/mixins";
+
+//== toggle side nav CTA on mobile
+.cta-nav-side {
+  --cta-nav-toggle-surface: #1a1a1a;
+  --cta-nav-toggle-text: #fff;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: .5rem 1rem;
+  font-size: functions.clamp-value(1rem, 1.125rem);
+  width: 100%;
+  text-transform: uppercase;
+  transition: color .3s, background-color .3s;
+  position: relative;
+  background-color: var(--cta-nav-toggle-surface);
+  color: var(--cta-nav-toggle-text);
+  text-align: left;
+  border-radius: 4px;
+
+  span {
+    color: var(--cta-nav-toggle-text);
+    transition: rotate .3s;
+  }
+
+  &:is(:hover, :focus-visible) {
+    background-color: var(--cta-nav-toggle-surface);
+    color: var(--cta-nav-toggle-text);
+  }
+
+  &.is-active {
+    background-color: var(--cta-nav-toggle-surface);
+    color: var(--cta-nav-toggle-text);
+
+    span {
+      rotate: 180deg;
+    }
+  }
+}
+
+
+//== side nav
+.nav-submenu {
+  --nav-submenu-text: #1a1a1a;
+  --nav-submenu-text-hover: #fff;
+  --nav-submenu-text-active: #fff;
+  --nav-submenu-surface: #fff;
+  --nav-submenu-surface-hover: #1a1a1a;
+  --nav-submenu-surface-active: #1a1a1a;
+  --nav-submenu-outline: 1px solid #E6D8CE;
+
+  margin-bottom: 0;
+  margin-left: 0;
+  list-style: none;
+
+  a {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(---nav-submenu-text);
+    border-bottom: var(--nav-submenu-outline);
+    position: relative;
+    text-decoration: none;
+    transition: background-color .3s, color .3s;
+
+    span {
+      color: var(---nav-submenu-text);
+      transition: color .3s;
+      line-height: inherit;
+    }
+
+    &:hover {
+      background-color: var(--nav-submenu-surface-hover);
+      color: var(--nav-submenu-text-hover);
+
+      span {
+        color: var(--nav-submenu-text-hover);
+      }
+    }
+
+    &.is-active {
+      background-color: var(--nav-submenu-surface-active);
+      color: var(--nav-submenu-text-active);
+
+      span {
+        color: var(--nav-submenu-text-active);
+      }
+    }
+  }
+
+  ul {
+    margin-left: 0;
+    list-style: none;
+    background-color: var(--nav-submenu-surface);
+    padding: 0;
+    margin-block: 0;
+
+    li {
+      padding: 0;
+
+      a {
+        padding: .8rem 1rem;
+      }
+    }
+  }
+
+  //== small viewports
+  @include mixins.for-size(small-only) {
+    display: none;
+  }
+
+  &.is-open {
+    display: block;
+  }
+}

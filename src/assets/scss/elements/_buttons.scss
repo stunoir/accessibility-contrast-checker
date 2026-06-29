@@ -1,0 +1,232 @@
+@use "sass:map";
+@use "../abstracts/mixins";
+@use "../abstracts/variables";
+
+//== button colour configuration - primary is always needed, add variants as required
+$base-button-colours: (
+  primary: (default: (bg: #1a1a1a,
+      fg: #FFF,
+      border: #1a1a1a,
+    ),
+    hover: (bg: #063583,
+      fg: #fff,
+      border: #063583,
+    )),
+  secondary: (default: (bg: variables.$colour-status-info,
+      fg: #fff,
+      border: variables.$colour-status-info,
+    ),
+    hover: (bg: hsl(from variables.$colour-status-info h s calc(l - 20)),
+      fg: #fff,
+      border: hsl(from variables.$colour-status-info h s calc(l - 20)),
+    )),
+  tertiary: (default: (bg: variables.$colour-status-warning,
+      fg: #1a1a1a,
+      border: variables.$colour-status-warning,
+    ),
+    hover: (bg: hsl(from variables.$colour-status-warning h s calc(l - 20)),
+      fg: #fff,
+      border: hsl(from variables.$colour-status-warning h s calc(l - 20)),
+    )),
+  ghost: (default: (bg: transparent,
+      fg: #1a1a1a,
+      border: #1a1a1a,
+    ),
+    hover: (bg: #1a1a1a,
+      fg: #fff,
+      border: #1a1a1a,
+    )),
+  ghost-light: (default: (bg: transparent,
+      fg: #fff,
+      border: #fff,
+    ),
+    hover: (bg: #fff,
+      fg: #1a1a1a,
+      border: #fff,
+    )),
+  light: (default: (bg: #fff,
+      fg: #1a1a1a,
+      border: #fff,
+    ),
+    hover: (bg: transparent,
+      fg: #fff,
+      border: #fff,
+    ))
+);
+
+//== mixin for button base style
+@mixin btn-base() {
+  --button-padding: .625rem 1.25rem;
+
+  display: inline-flex;
+  padding: var(--button-padding);
+  border-radius: 0.1875rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  transition: color 0.3s, background-color 0.3s, border 0.3s;
+  text-decoration: none;
+  cursor: pointer;
+  appearance: none;
+  font-size: 1rem;
+  line-height: inherit;
+
+  //== small viewport adjustments (using smaller as default)
+  @include mixins.for-size(small-only) {
+    --button-padding: .75rem 1rem;
+  }
+
+  &--sm {
+    --button-padding: .75rem 1rem;
+  }
+
+  &--xs {
+    --button-padding: 0.5rem;
+  }
+}
+
+//== mixin for button modifier style
+@mixin btn-modifier($variant, $state: default) {
+  $bg-color: map.get(map.get($base-button-colours, $variant), $state, bg);
+  $text-color: map.get(map.get($base-button-colours, $variant), $state, fg);
+  $border-color: map.get(map.get($base-button-colours, $variant), $state, border);
+
+  //== for flat declaration we want to keep later in the rule
+  & {
+    background-color: $bg-color;
+    color: $text-color;
+    border: 2px solid $border-color;
+
+    span {
+      color: $text-color;
+      font-weight: 400;
+      transition: color .3s;
+    }
+  }
+}
+
+//== base button styles builder
+.btn-main {
+  @include btn-base();
+
+  //== generate primary/default style
+  @include btn-modifier(primary);
+
+  &:hover,
+  &:focus,
+  &:focus-visible,
+  &.is-active {
+    @include btn-modifier(primary, hover);
+  }
+
+  &:focus-visible {
+    outline: 1px solid map.get(map.get($base-button-colours, primary), hover, border);
+    outline-offset: 2px;
+  }
+
+  //== generate classes for all variants (except primary/default)
+  @each $variant, $colors in $base-button-colours {
+    @if $variant !=primary {
+      &--#{$variant} {
+        @include btn-modifier($variant);
+
+        &:hover,
+        &:focus,
+        &:focus-visible,
+        &.is-active {
+          @include btn-modifier($variant, hover);
+        }
+
+        &:focus-visible {
+          outline: 1px solid map.get(map.get($base-button-colours, $variant), hover, border);
+        }
+      }
+    }
+  }
+
+  &--expanded {
+    width: 100%;
+  }
+
+  &:disabled,
+  &.is-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+//== main simple text call-to-action
+.cta-text {
+  --cta-text: var(--colour-text-link);
+  --cta-text-hover: var(--colour-text-link-hover);
+
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.3125rem;
+  font-weight: 400;
+  text-decoration: none;
+  border-top: 1px solid transparent;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 1px solid var(--cta-text);
+  color: var(--cta-text);
+  transition: color .3s, border-bottom .3s;
+  cursor: pointer;
+  appearance: none;
+  background-color: transparent;
+  padding: 0;
+
+  span {
+    font-weight: 400;
+    color: var(--cta-text);
+    transition: color .3s, transform .3s;
+  }
+
+  &:is(:hover, :focus-visible) {
+    color: var(--cta-text-hover);
+    border-bottom: 1px solid var(--cta-text-hover);
+
+    span {
+      transform: translateX(3px);
+      color: var(--cta-text-hover);
+    }
+  }
+
+  &--light {
+    --cta-text: #fff;
+    --cta-text-hover: #{rgba(#fff, .9)};
+  }
+}
+
+//== main site 'skip to content' link/button
+.skip-to-content-link {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  background: #1a1a1a;
+  color: #fff;
+  line-height: 1;
+  padding: .9375rem 1.25rem;
+  border-radius: 0;
+  text-decoration: none;
+  font-size: 1rem;
+
+  &:focus-visible {
+    left: 0;
+    top: 0;
+    width: auto;
+    height: auto;
+    color: #fff;
+  }
+}
+
+[dir="rtl"] {
+  .skip-to-content-link {
+    left: auto;
+    right: -10000px;
+  }
+}

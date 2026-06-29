@@ -1,0 +1,142 @@
+@use "../abstracts/mixins";
+
+//== overflow
+.oflow-y-hidden {
+  overflow-y: hidden;
+}
+
+.oflow-hidden {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.oflow-auto {
+  overflow-y: auto;
+}
+
+
+//== positioning
+.position-rel {
+  position: relative;
+}
+
+.position-absolute,
+.position-abs {
+  position: absolute;
+}
+
+.position-fixed {
+  position: fixed;
+}
+
+.position-sticky {
+  position: sticky;
+  top: 1rem;
+}
+
+
+//== text alignment
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+//== text alignment - rtl overrides
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+//== text alignment - medium (min-width 40em)
+@include mixins.for-size(medium-up) {
+  .medium-text-left {
+    text-align: left;
+  }
+
+  .medium-text-right {
+    text-align: right;
+  }
+
+  .medium-text-center {
+    text-align: center;
+  }
+
+  .medium-text-justify {
+    text-align: justify;
+  }
+
+  [dir="rtl"] .medium-text-left {
+    text-align: right;
+  }
+
+  [dir="rtl"] .medium-text-right {
+    text-align: left;
+  }
+}
+
+//== text alignment - large (min-width 64em)
+@include mixins.for-size(large) {
+  .large-text-left {
+    text-align: left;
+  }
+
+  .large-text-right {
+    text-align: right;
+  }
+
+  .large-text-center {
+    text-align: center;
+  }
+
+  .large-text-justify {
+    text-align: justify;
+  }
+
+  [dir="rtl"] .large-text-left {
+    text-align: right;
+  }
+
+  [dir="rtl"] .large-text-right {
+    text-align: left;
+  }
+}
+
+//== click expander - stretches the clickable area of a positioned child via ::after
+.click-expander {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -0.5rem;
+  }
+}
+
+//== debug - uncomment to outline all elements and highlight overflow/scroll issues
+// * {
+//   outline: 1px solid red;
+//   background-color: rgba(red, .05) !important;
+//
+//   &:before,
+//   &::after {
+//     outline: 1px solid red;
+//     background-color: rgba(red, .05) !important;
+//   }
+// }

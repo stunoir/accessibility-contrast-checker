@@ -1,0 +1,136 @@
+@use "../abstracts/variables";
+@use "../abstracts/mixins";
+
+//== flex container component - base class with modifier variants
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+
+  &.flex-column {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    //== use .align-i-stretch instead of align-items: stretch here
+
+    >* {
+      margin-bottom: 0;
+    }
+  }
+
+  &.flex-between {
+    justify-content: space-between;
+  }
+
+  &.flex-around {
+    justify-content: space-around;
+  }
+
+  &.flex-evenly {
+    justify-content: space-evenly;
+  }
+
+  &.flex-stretch {
+    align-items: stretch;
+
+    >* {
+      flex: 1;
+    }
+  }
+}
+
+
+//== gap utility classes - generated from $space-flex-gaps map in abstracts/variables
+@each $px, $rem in variables.$space-flex-gaps {
+  .flex-container {
+    &.flex-gap-#{$px} {
+      gap: #{$rem};
+    }
+
+    &.flex-column-gap-#{$px} {
+      column-gap: #{$rem};
+    }
+
+    &.flex-row-gap-#{$px} {
+      row-gap: #{$rem};
+    }
+  }
+}
+
+
+//== flex utility classes
+.d-flex {
+  display: flex;
+}
+
+.justify-c-start {
+  justify-content: flex-start;
+}
+
+.justify-c-end {
+  justify-content: flex-end;
+}
+
+.justify-c-center {
+  justify-content: center;
+}
+
+.justify-c-between {
+  justify-content: space-between;
+}
+
+.justify-c-around {
+  justify-content: space-around;
+}
+
+.align-i-start {
+  align-items: flex-start;
+}
+
+.align-i-end {
+  align-items: flex-end;
+}
+
+.align-i-center {
+  align-items: center;
+}
+
+.align-i-baseline {
+  align-items: baseline;
+}
+
+.align-i-stretch {
+  align-items: stretch;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
+}
+
+.flex-column-reverse {
+  flex-direction: column-reverse;
+}
+
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+@include mixins.for-size(medium-up) {
+  .medium-align-left {
+    justify-content: flex-start;
+  }
+
+  .medium-align-right {
+    justify-content: flex-end;
+  }
+}

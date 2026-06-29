@@ -1,0 +1,142 @@
+﻿@media print {
+
+  @page {
+    margin-block: 0.75in;
+  }
+
+  //== reset backgrounds, colours, and shadows for print
+  * {
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  //== show/hide utilities for print
+  .show-for-print {
+    display: block !important;
+  }
+
+  .hide-for-print {
+    display: none !important;
+  }
+
+  table.show-for-print {
+    display: table !important;
+  }
+
+  thead.show-for-print {
+    display: table-header-group !important;
+  }
+
+  tbody.show-for-print {
+    display: table-row-group !important;
+  }
+
+  tr.show-for-print {
+    display: table-row !important;
+  }
+
+  td.show-for-print {
+    display: table-cell !important;
+  }
+
+  th.show-for-print {
+    display: table-cell !important;
+  }
+
+  //== print link hrefs after anchor text, suppress JS and fragment links
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: ' (' attr(href) ')';
+  }
+
+  .ir a:after,
+  a[href^='javascript:']:after,
+  a[href^='#']:after {
+    content: '';
+  }
+
+  //== expand abbreviations inline
+  abbr[title]:after {
+    content: ' (' attr(title) ')';
+  }
+
+  //== page break and pagination control
+  pre,
+  blockquote {
+    border: 1px solid #8a8a8a;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  //== page margin
+  @page {
+    margin: 0.5cm;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  .print-break-inside {
+    page-break-inside: auto;
+  }
+
+  //== strip animations for print
+  * {
+    animation: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+
+  //== reset AOS-animated elements to visible
+  .aos-init,
+  .aos-animate {
+    opacity: 1 !important;
+    transform: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    transition-property: none !important;
+  }
+
+  //== suppress href printing (overrides the earlier rule)
+  a[href]:after {
+    content: none !important;
+  }
+
+  //== force full-width block display
+  .print-full {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  //== hide site header and footer when printing
+  .wrapper-header,
+  .wrapper-footer {
+    display: none;
+  }
+}

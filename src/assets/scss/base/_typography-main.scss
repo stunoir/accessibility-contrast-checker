@@ -1,0 +1,401 @@
+@use "sass:map";
+@use "sass:string";
+@use "../abstracts/functions";
+@use "../abstracts/mixins";
+
+//== font size scale - values use clamp-value() to scale responsively between viewport widths
+$typography-sizes: (
+  h1: functions.clamp-value(1.5rem, 2.5rem),
+  h2: functions.clamp-value(1.25rem, 2rem),
+  h3: functions.clamp-value(1.1875rem, 1.75rem),
+  h4: functions.clamp-value(1.125rem, 1.5rem),
+  h5: functions.clamp-value(1.0625rem, 1.25rem),
+  h6: 1rem,
+  subheading: functions.clamp-value(1rem, 1.125rem),
+  paragraph: 1rem,
+  lead: functions.clamp-value(1rem, 1.25rem),
+  small: 0.875rem,
+  label: 1rem,
+  list-item: 1rem,
+  table-heading: 1rem,
+  table-data: 1rem,
+  anchor: 1rem,
+  legend: 1rem,
+  input: 1rem,
+  dt: 1rem,
+  dd: 1rem,
+  code: 1rem,
+  //== button font size is controlled in elements/_buttons.scss
+);
+
+//== utility class names mapped to heading levels
+$typography-classes: (
+  h1: text-xxl,
+  h2: text-xl,
+  h3: text-lg,
+  h4: text-md,
+  h5: text-sm,
+  h6: text-xs,
+);
+
+//== font weight scale
+$typography-weights: (
+  regular: 400,
+  bold: 700
+);
+
+//== line height settings
+$typography-line-height: 1.5;
+$typography-line-height-heading: 110%;
+
+
+//== local mixins - apply consistent styles to heading and text elements
+
+@mixin heading-style($heading, $map, $weight: regular, $line-height: $typography-line-height-heading) {
+  font-size: map.get($map, $heading);
+  line-height: $line-height;
+  font-family: var(--font-family-heading);
+  font-style: normal;
+  font-weight: map.get($typography-weights, $weight);
+  text-rendering: optimizeLegibility;
+  margin-bottom: 1.5rem;
+}
+
+@mixin text-style($type, $map, $weight: regular, $line-height: $typography-line-height, $color: var(--colour-text-default)) {
+  font-size: map.get($map, $type);
+  font-weight: map.get($typography-weights, $weight);
+  line-height: $line-height;
+}
+
+@mixin link-style($map) {
+  font-size: map.get($map, anchor);
+  color: var(--colour-text-link);
+  text-decoration: none;
+  line-height: inherit;
+  cursor: pointer;
+
+  &:not([class]) {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  &:is(:hover, :focus-visible) {
+    color: var(--colour-text-link-hover);
+  }
+}
+
+//== iterates the $typography-sizes map and applies styles to matching elements and utility classes
+@mixin apply-typography-styles($map) {
+  @each $key, $size in $map {
+
+    //== headings (h1-h6)
+    @if (string.index($key, 'h')==1) {
+
+      $new-class: map.get($typography-classes, $key);
+
+      #{$key},
+      .#{$key},
+      .#{$new-class} {
+        @include heading-style($key, $map);
+      }
+    }
+
+    //== anchor links
+    @else if ($key ==anchor) {
+      a {
+        @include link-style($map);
+      }
+    }
+
+    //== all other text types
+    @else {
+      @if ($key ==paragraph) {
+
+        p {
+          @include text-style($key, $map);
+          text-wrap: pretty;
+          text-rendering: optimizeLegibility;
+          margin-bottom: 1rem;
+        }
+      }
+
+      @else if ($key ==small) {
+
+        .small,
+        small {
+          @include text-style($key, $map);
+        }
+      }
+
+      @else if ($key ==list-item) {
+
+        li,
+        .#{$key} {
+          @include text-style($key, $map);
+        }
+      }
+
+      @else if ($key ==table-heading) {
+        th {
+          @include text-style($key, $map, bold);
+        }
+      }
+
+      @else if ($key ==table-data) {
+        td {
+          @include text-style($key, $map);
+        }
+      }
+
+      //== button styles are handled in elements/_buttons.scss
+      // @else if ($key ==button) {
+      //   button,
+      //   .btn-main {
+      //     @include text-style($key, $map, bold);
+      //     span {
+      //       line-height: $typography-line-height;
+      //     }
+      //   }
+      // }
+
+      @else if ($key ==label) {
+
+        label {
+          @include text-style($key, $map);
+          display: block;
+          margin: 0;
+        }
+      }
+
+      @else if ($key ==legend) {
+
+        legend {
+          @include text-style($key, $map);
+          margin-bottom: 0;
+          display: contents;
+        }
+      }
+
+      @else if ($key ==input) {
+
+        input,
+        select,
+        textarea {
+          @include text-style($key, $map);
+        }
+      }
+
+      @else if ($key ==subheading) {
+
+        .subheading {
+          @include text-style($key, $map, bold);
+          font-family: var(--font-family-heading);
+        }
+      }
+
+      @else if ($key ==dt) {
+
+        dt,
+        dd {
+          @include text-style($key, $map);
+        }
+      }
+
+      @else if ($key ==code) {
+
+        code {
+          font-family: var(--font-family-body);
+          padding: 0 .3125rem;
+          border: 0;
+          @include text-style($key, $map);
+        }
+      }
+
+      @else {
+
+        .#{$key} {
+          @include text-style($key, $map);
+        }
+      }
+    }
+  }
+}
+
+
+//== shared base styles
+:is(em, i) {
+  font-style: italic;
+}
+
+:is(strong, b) {
+  font-weight: bold;
+}
+
+:is(h1, h2, h3, h4, h5, h6, .subheading) {
+  color: var(--colour-text-heading);
+  text-rendering: optimizeLegibility;
+  text-wrap: balance;
+}
+
+:is(p, li, span, th, td, input, cite, a, button, select, textarea, label, legend, address, dt, dd, figcaption) {
+  color: var(--colour-text-default);
+}
+
+
+//== lists
+ul,
+ol {
+  margin-inline-start: 1.25rem;
+  padding: 0;
+  line-height: 1.6;
+  list-style-position: outside;
+
+  &:is(ul) {
+    list-style-type: disc;
+  }
+
+  ul,
+  ol {
+    margin-inline-start: 0;
+    margin-bottom: 0;
+    margin-block: 0.625rem 0.625rem;
+    padding-inline-start: 1.375rem;
+
+    &:is(ul) {
+      list-style-type: circle;
+    }
+  }
+
+  li {
+    p {
+
+      +ul,
+      +ol {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  &.no-bullet {
+    margin-left: 0;
+    list-style: none;
+  }
+}
+
+
+//== definition lists
+dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+
+  dt {
+    font-weight: 700;
+  }
+
+  dt,
+  dd {
+    margin: 0;
+  }
+}
+
+
+//== blockquote
+blockquote {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 0 1.875rem;
+  background-color: var(--colour-surface-page);
+  border: 0;
+  border-left: 5px solid var(--colour-brand-primary);
+  line-height: 1.6;
+
+  @include mixins.for-size(small-only) {
+    padding: 0.9375rem;
+  }
+
+  * {
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  p {
+    color: var(--colour-text-default);
+    margin: 0;
+  }
+
+  cite {
+    color: var(--colour-text-default);
+
+    &:before {
+      content: '— ';
+    }
+  }
+
+  &.no-border {
+    border: 0;
+  }
+}
+
+
+//== figure
+figure {
+  width: 100%;
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9375rem;
+  margin-bottom: 1.5rem;
+  margin-inline: 0;
+
+  figcaption {
+    background-color: transparent;
+    font-size: 1rem;
+  }
+}
+
+
+//== inline text elements
+abbr,
+abbr[title] {
+  border-bottom: 1px dotted var(--colour-text-code);
+  cursor: help;
+  text-decoration: none;
+}
+
+kbd {
+  margin: 0;
+  padding: 0.125rem 0.25rem 0;
+  background-color: var(--colour-surface-disabled);
+  font-family: Consolas, 'Liberation Mono', Courier, monospace;
+  color: var(--colour-text-code);
+}
+
+xmp {
+  background-color: var(--colour-surface-inverse) !important;
+  padding: 0;
+  border-radius: 6px;
+  display: block;
+  color: var(--colour-surface-page) !important;
+}
+
+code {
+  border: 1px solid var(--colour-ui-divider-strong);
+  background-color: var(--colour-surface-disabled);
+  font-family: Consolas, 'Liberation Mono', Courier, monospace;
+  font-weight: normal;
+  color: var(--colour-text-code);
+  display: inline;
+  max-width: 100%;
+  word-wrap: break-word;
+  padding: 0.125rem 0.3125rem 0.0625rem;
+}
+
+
+//== apply all typography styles from the sizes map
+@include apply-typography-styles($typography-sizes);

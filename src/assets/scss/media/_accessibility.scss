@@ -1,0 +1,72 @@
+﻿//== mixin - strips all animations, transitions, and transforms
+@mixin reduce-animations {
+  * {
+    animation: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    transform: none !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+    transition-property: none !important;
+    scale: 1 !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+
+  //== reset GSAP-animated elements to visible
+  [data-zanim-stagger]:not(.mobile-menu a) .cell,
+  [data-zanim] {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  //== reset motion/AOS-animated elements to visible
+  [data-motion],
+  [data-aos] {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+
+//== apply the mixin when animations are turned off via class
+html.access-anims-off,
+.in-iframe,
+[class*="ktc-"] {
+  @include reduce-animations;
+}
+
+//== no-js fallback - only reveal animation-driven content, don't disable global transitions/transforms
+html.no-js {
+  [data-aos],
+  [data-motion],
+  [data-zanim],
+  [data-zanim-stagger] .cell {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+  }
+}
+
+//== prefers-reduced-motion - apply for users who prefer reduced motion/animations
+@media screen and (prefers-reduced-motion: reduce) {
+  @include reduce-animations;
+}
+
+//== prefers-reduced-transparency - detect if user has reduced translucent layer effects
+@media screen and (prefers-reduced-transparency) {
+  // .some-class {
+  //   opacity: 1;
+  // }
+}
+
+//== prefers-reduced-data - detect if user wants to consume less data (e.g. disable large background images)
+@media (prefers-reduced-data: reduce) {
+  // .some-class {
+  //   background-image: none !important;
+  // }
+}

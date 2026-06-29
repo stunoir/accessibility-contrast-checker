@@ -1,0 +1,73 @@
+//== box sizing
+* {
+  box-sizing: border-box;
+  scrollbar-width: auto;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+
+//== html and body defaults
+html {
+  font-size: 100%;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+body {
+  padding: 0;
+  background: var(--colour-surface-page);
+  color: var(--colour-text-default);
+  font-family: var(--font-family-body);
+  font-weight: normal;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+//== reset margin and padding on common block elements
+:is(div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, th, td) {
+  margin: 0;
+  padding: 0;
+}
+
+
+//== images
+img {
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+  -ms-interpolation-mode: bicubic;
+}
+
+
+//== horizontal rule
+hr {
+  clear: both;
+  margin: 1.25rem auto;
+  border-top: 0;
+  border-right: 0;
+  border-bottom: 2px solid var(--colour-ui-divider);
+  border-left: 0;
+  width: 100%;
+  max-width: var(--layout-container-max-width);
+}
+
+
+//== fallback font - overrides metrics to minimise cumulative layout shift before web font loads
+@font-face {
+  font-family: fallback-font;
+  src: local(Arial);
+  ascent-override: 100%;
+  descent-override: 0%;
+  line-gap-override: normal;
+  advance-override: 10;
+  size-adjust: 100%;
+}

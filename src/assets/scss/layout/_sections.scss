@@ -1,0 +1,75 @@
+@use "sass:math";
+@use '../abstracts/mixins';
+@use '../abstracts/variables';
+
+// ============================================================================
+//== section wrappers - defines vertical padding for full-width page sections.
+//== .wrapper-section is the base class; colour variants are generated via the
+//== wrapper-styles mixin and applied as modifiers (e.g. .wrapper-section--white).
+//== adjacent sections of the same colour variant automatically collapse their
+//== shared padding to avoid doubled spacing.
+// ============================================================================
+
+$section-padding: variables.$space-section;
+$section-padding-half: math.div($section-padding, 2);
+
+$section-padding-sm: variables.$space-section-sm;
+$section-padding-half-sm: math.div($section-padding-sm, 2);
+
+.wrapper-section {
+  padding-block: $section-padding;
+  overflow-x: clip;
+
+  @include mixins.for-size(small-only) {
+    padding-block: $section-padding-sm;
+  }
+}
+
+@mixin wrapper-styles($color-name, $bg-color) {
+  .wrapper-section--#{$color-name} {
+    --wrapper-section-surface: #{$bg-color};
+
+    background-color: var(--wrapper-section-surface);
+    padding-block: $section-padding;
+
+    @include mixins.for-size(small-only) {
+      padding-block: $section-padding-sm;
+    }
+
+    //== adjacent element of the same type
+    &:has(+ .wrapper-section--#{$color-name}) {
+      padding-block-end: $section-padding-half;
+
+      @include mixins.for-size(small-only) {
+        padding-block-end: $section-padding-half-sm;
+      }
+    }
+
+    //== the element is directly following another of the same type
+    &+.wrapper-section--#{$color-name} {
+      padding-block-start: $section-padding-half;
+      padding-block-end: $section-padding-half;
+
+      @include mixins.for-size(small-only) {
+        padding-block-start: $section-padding-half-sm;
+        padding-block-end: $section-padding-half-sm;
+      }
+    }
+
+    //== reset if the next element is different
+    &:has(+:not(.wrapper-section--#{$color-name})),
+    &:last-of-type {
+      padding-block-end: $section-padding;
+
+      @include mixins.for-size(small-only) {
+        padding-block-end: $section-padding-sm;
+      }
+    }
+  }
+}
+
+//== colour variants - always use a modifier class alongside .wrapper-section
+//== e.g. class="wrapper-section wrapper-section--white", never .wrapper-section alone
+@include wrapper-styles('white', #ffffff);
+@include wrapper-styles('dark', #1a1a1a);
+@include wrapper-styles('accent-primary', #3B82F6); //== for demo

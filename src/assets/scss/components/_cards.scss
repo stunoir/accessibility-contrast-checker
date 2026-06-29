@@ -1,0 +1,62 @@
+@use "../abstracts/functions";
+@use "../abstracts/mixins";
+@use "../abstracts/variables";
+
+
+.ui-icon {
+  --ui-icon-font: 2.5rem;
+  --ui-icon-border: 4px solid #1a1a1a;
+  --ui-icon-position: -1rem;
+  --ui-icon-weight: 300;
+
+  position: absolute;
+  background-color: #fff;
+  border: var(--ui-icon-border);
+  color: #1a1a1a;
+  display: flex;
+  padding: 0.1rem;
+  font-size: var(--ui-icon-font);
+  font-weight: var(--ui-icon-weight);
+  border-radius: 50%;
+  top: var(--ui-icon-position);
+  right: var(--ui-icon-position);
+}
+
+.ui-panel {
+  background-color: var(--colour-surface-muted);
+  padding: functions.clamp-value(1.5rem, 2.5rem) functions.clamp-value(1.5rem, 3rem);
+  border-radius: 1rem;
+  position: relative;
+
+  p {
+    max-width: 70ch;
+  }
+
+  &+.ui-panel {
+    margin-block-start: 2rem;
+  }
+}
+
+.colour-results {
+  dl {
+    background-color: var(--colour-surface-strong);
+    padding: 1.5rem functions.clamp-value(1rem, 2rem);
+    border-radius: 1rem;
+    position: relative;
+
+    >* {
+      margin: 0;
+    }
+
+    dt {
+      font-weight: 400;
+    }
+
+    .ui-icon {
+      --ui-icon-font: 1.5rem;
+      --ui-icon-border: 2px solid #1a1a1a;
+      --ui-icon-position: -0.5rem;
+      --ui-icon-weight: 600;
+    }
+  }
+}

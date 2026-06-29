@@ -1,0 +1,149 @@
+@use "sass:map";
+@use "variables";
+
+// ============================================================================
+//== scss mixins
+//== requires: @use '../abstracts/mixins';
+// ============================================================================
+
+
+// ----------------------------------------------------------------------------
+//== link-fader
+//
+//== applies a smooth opacity transition on hover and focus-visible,
+//== fading the element to 80% opacity.
+//
+//== usage:
+//==   .my-link {
+//==     @include mixins.link-fader;
+//==   }
+// ----------------------------------------------------------------------------
+
+@mixin link-fader {
+  transition: opacity 0.3s;
+  opacity: 1;
+
+  &:is(:hover, :focus-visible) {
+    opacity: 0.8;
+  }
+}
+
+
+// ----------------------------------------------------------------------------
+//== link-hover-lift
+//
+//== applies a subtle upward translate and box-shadow on hover and focus-visible,
+//== giving interactive elements a lifted appearance.
+//
+//== usage:
+//==   .my-card {
+//==     @include mixins.link-hover-lift;
+//==   }
+// ----------------------------------------------------------------------------
+
+@mixin link-hover-lift() {
+  transition: transform .3s, box-shadow .3s;
+
+  &:is(:hover, :focus-visible) {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+  }
+}
+
+
+// ----------------------------------------------------------------------------
+//== focus-access
+//
+//== applies a high-visibility focus style using the global focus colour tokens.
+//== intended for interactive elements that need a consistent accessible focus ring.
+//
+//== usage:
+//==   .focusable-element {
+//==     @include mixins.focus-access;
+//==   }
+// ----------------------------------------------------------------------------
+
+@mixin focus-access() {
+  &:focus-visible {
+    color: var(--colour-focus-text);
+    background-color: var(--colour-focus-outline);
+    box-shadow: 0 -2px var(--colour-focus-outline), 0 4px #1a1a1a;
+    outline: transparent;
+    opacity: 1;
+
+    span {
+      color: var(--colour-focus-text);
+    }
+  }
+}
+
+
+// ----------------------------------------------------------------------------
+//== for-size($breakpoint)
+//
+//== outputs a media query for the given named breakpoint. based on the ui kit
+//== grid system breakpoint scale.
+//
+//== params:
+//==   $breakpoint - one of the following named values:
+//==     small-only        - max-width 39.9375em (below 640px)
+//==     medium-only       - min-width 40em and max-width 63.9375em (640px - 1023px)
+//==     medium-landscape  - medium range with landscape orientation
+//==     large             - min-width 64em (1024px and above)
+//==     less-than-large   - max-width 1023px (below 1024px)
+//
+//== usage:
+//   .my-class {
+//      background-color: blue;
+// 
+//      @include mixins.for-size(small-only) {
+//        background-color: red;
+//      }
+// 
+//      @include mixins.for-size(medium-only) {
+//        background-color: green;
+//      }
+// 
+//      @include mixins.for-size(large) {
+//        background-color: pink;
+//      }
+//   }
+//== ----------------------------------------------------------------------------
+
+@mixin for-size($breakpoint) {
+  @if $breakpoint ==small-only {
+    @media screen and (max-width: 39.9375em) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==medium-only {
+    @media screen and (min-width: 40em) and (max-width: 63.9375em) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==medium-landscape {
+    @media screen and (min-width: 40em) and (max-width: 63.9375em) and (orientation: landscape) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==large {
+    @media screen and (min-width: 64em) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==medium-up {
+    @media screen and (min-width: 40em) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint ==less-than-large {
+    @media screen and (max-width: 63.9375em) {
+      @content;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+//== 1. abstracts - functions, mixins, global variables
+@forward 'abstracts';
+
+//== 2. base - grid, flex, helpers, icons, typgraphy, animations etc.
+@use 'base';
+
+//== 3. elements - standard HTML elements: button, table, form inputs etc.
+@use 'elements';
+
+//== 4. layouts - header, footer, general sections etc.
+@use 'layout';
+
+//== 5. components - accordions, breadcrumbs, cards, pagination, modals etc.
+@use 'components';
+
+//== 8. media - media queries, print, accessibility handlers etc.
+@use 'media';
+
+//== 8. vendor - any 3rd party items
+@use 'vendor';

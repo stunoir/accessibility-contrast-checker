@@ -1,0 +1,52 @@
+@use "../abstracts/mixins";
+
+//== wrapper - hidden on small viewports, toggled open via js
+.side-filters-container {
+  >* {
+    margin-bottom: 0;
+  }
+
+  @include mixins.for-size(small-only) {
+    display: none;
+  }
+
+  &.is-open {
+    display: flex;
+  }
+}
+
+//== individual filter item (uses details/summary disclosure pattern)
+.side-filter {
+  --side-filter-surface: #fff;
+  --side-filter-outline: #1a1a1a;
+  --side-filter-radius: .1875rem;
+
+  border: 2px solid var(--side-filter-outline);
+
+  summary {
+    background-color: var(--side-filter-surface);
+
+    &:is(:hover, :focus-visible) {
+      background-color: color-mix(in hsl, var(--side-filter-surface), var(--side-filter-outline) 5%);
+    }
+  }
+
+  .content {
+    background-color: var(--side-filter-surface);
+
+    >*+* {
+      margin-block-start: 0.625rem;
+    }
+  }
+
+  &[open] summary {
+    background-color: color-mix(in hsl, var(--side-filter-surface), var(--side-filter-outline) 5%);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+//== remove margin block between adjacent items
+.side-filter+.side-filter {
+  margin-block-start: 0;
+}

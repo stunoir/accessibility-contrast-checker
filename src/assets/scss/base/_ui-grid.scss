@@ -1,0 +1,347 @@
+@use 'sass:math';
+@use "../abstracts/variables";
+@use "grid";
+
+// ============================================================================
+//== ui grid - 12-column flexbox grid system
+// ============================================================================
+
+
+//== base grid container
+.ui-grid {
+  @extend .grid-container;
+  display: flex;
+  flex-flow: row wrap;
+  padding-right: 0;
+  padding-left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  row-gap: 1.875rem;
+
+  >.cell {
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+
+    .ui-grid {
+      margin-right: -0.625rem;
+      margin-left: -0.625rem;
+    }
+  }
+
+  &.fluid,
+  &.full,
+  &.grid-fluid,
+  &.grid-full {
+    max-width: 100%;
+  }
+
+  &.collapse,
+  &.grid-collapse {
+    padding-right: 0.625rem;
+    padding-left: 0.625rem;
+    row-gap: 0;
+
+    .cell {
+      padding: 0;
+    }
+  }
+}
+
+//== medium breakpoint cell padding adjustments
+@media print,
+screen and (min-width: 40em) {
+  .ui-grid {
+    >.cell {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem;
+
+      .ui-grid {
+        margin-right: -0.9375rem;
+        margin-left: -0.9375rem;
+      }
+    }
+
+    &.collapse,
+    &.grid-collapse {
+      padding-right: 0.9375rem;
+      padding-left: 0.9375rem;
+    }
+  }
+}
+
+
+//== mixin - calculates column width as a percentage of 12 columns
+@mixin column-width($size) {
+  width: math.percentage(calc($size / 12));
+}
+
+//== mixin - sets flex to fixed (non-growing) auto width
+@mixin flex-auto {
+  flex: 0 0 auto;
+}
+
+//== mixin - generates .{prefix}-1 through .{prefix}-12 column classes plus shrink, full, and auto helpers
+@mixin generate-columns($prefix) {
+  @for $i from 1 through 12 {
+    .#{$prefix}-#{$i} {
+      @include flex-auto;
+      @include column-width($i);
+    }
+  }
+
+  .#{$prefix}-shrink {
+    flex-basis: auto;
+    width: auto;
+  }
+
+  .#{$prefix}-full {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .#{$prefix}-auto {
+    flex: 1 1 0;
+    width: auto;
+  }
+}
+
+
+//== column classes - small (default), medium, and large breakpoints
+.ui-grid {
+  > {
+    @include generate-columns('small');
+  }
+
+  @media screen and (min-width: variables.$breakpoint-medium) {
+    > {
+      @include generate-columns('medium');
+    }
+  }
+
+  @media screen and (min-width: variables.$breakpoint-large) {
+    > {
+      @include generate-columns('large');
+    }
+  }
+}
+
+
+// ============================================================================
+//== reference - alternative grid patterns (not active)
+// ============================================================================
+
+//== card grid - css grid alternative to the flexbox ui-grid above
+// $card-up-columns: (
+//   1: 12,
+//   2: 6,
+//   3: 4,
+//   4: 3,
+//   5: 2.4,
+//   6: 2,
+//   7: 1.71429,
+//   8: 1.5
+// );
+
+// $card-grid-gap: 1.875rem;
+
+// .card-grid {
+//   display: grid;
+//   grid-template-columns: repeat(12, 1fr);
+//   gap: 0;
+
+//   .cell {
+//     min-height: 0;
+//     min-width: 0;
+//     width: 100%;
+//     grid-column: span 12;
+//     grid-row: auto;
+//     height: 100%;
+//     display: flex;
+//     flex-direction: column;
+
+//     &.cell-stretch {
+//       >* {
+//         height: 100%;
+//       }
+//     }
+//   }
+// }
+
+// .card-grid-gap {
+//   gap: $card-grid-gap;
+// }
+
+// @for $i from 1 through 12 {
+//   .card-grid {
+//     >.small-#{$i} {
+//       grid-column: span #{$i};
+//     }
+//   }
+// }
+
+// @media print,
+// screen and (min-width: 40em) {
+//   .card-grid {
+//     @for $i from 1 through 12 {
+//       >.medium-#{$i} {
+//         grid-column: span #{$i};
+//       }
+//     }
+//   }
+// }
+
+// @media print,
+// screen and (min-width: 64em) {
+//   .card-grid {
+//     @for $i from 1 through 12 {
+//       >.large-#{$i} {
+//         grid-column: span #{$i};
+//       }
+//     }
+//   }
+// }
+
+// @media print,
+// screen and (min-width: 40em) {
+//   .card-grid-gap {
+//     gap: $card-grid-gap;
+//   }
+// }
+
+// .card-grid {
+//   @each $key, $value in $card-up-columns {
+//     &.small-up-#{$key} {
+//       >.cell {
+//         grid-column: span #{$value};
+//       }
+//     }
+//   }
+// }
+
+// @media print,
+// screen and (min-width: 40em) {
+//   @each $key, $value in $card-up-columns {
+//     .card-grid {
+//       &.medium-up-#{$key} {
+//         >.cell {
+//           grid-column: span #{$value};
+//         }
+//       }
+//     }
+//   }
+// }
+
+// @media print,
+// screen and (min-width: 64em) {
+//   @each $key, $value in $card-up-columns {
+//     .card-grid {
+//       &.large-up-#{$key} {
+//         >.cell {
+//           grid-column: span #{$value};
+//         }
+//       }
+//     }
+//   }
+
+//   @for $i from 1 through 12 {
+//     .card-grid {
+//       >.card-row-span-#{$i} {
+//         grid-row: span #{$i};
+//       }
+//     }
+//   }
+// }
+
+
+//== grid flow - browser-managed column flow without explicit media queries
+//== uses auto-fill (fills row with as many columns as fit) or
+//== auto-fit (expands existing columns to fill available space)
+
+// .grid-flow {
+//   --grid-min-col-size: 360px; // 3 columns on large - the default
+
+//   display: grid;
+//   gap: 1.875rem;
+//   grid-template-columns: repeat(auto-fill, minmax(min(var(--grid-min-col-size), 100%), 1fr));
+// }
+
+
+//== repeater grid - css layers-based grid/flex system driven by css custom properties
+
+// @layer layout-base, layout-main, layout-modifiers;
+
+// $repeat-breakpoints: (
+//   sm: small-only,
+//   md: medium-only,
+//   lg: large
+// );
+
+// @layer layout-modifiers {
+//   @each $prefix, $mq-key in $repeat-breakpoints {
+//     @include for-size($mq-key) {
+//       @for $i from 1 through 12 {
+//         .repeat-#{$prefix}-#{$i} {
+//           --grid-repeat: #{$i};
+//           --flex-repeat: #{$i};
+//         }
+//       }
+//     }
+//   }
+// }
+
+// @layer layout-main {
+//   .repeater-grid {
+//     --_grid-repeat: var(--grid-repeat, var(--layout-default-repeat));
+//     --_repeating-grid-gap: var(--grid-gap, var(--layout-default-gap));
+
+//     display: grid;
+//     grid-template-columns: repeat(var(--_grid-repeat), 1fr);
+//     gap: var(--_repeating-grid-gap);
+//   }
+
+//   .repeater-flex {
+//     --_flex-repeat: var(--flex-repeat, var(--layout-default-repeat));
+//     --_repeating-flex-gap: var(--flex-gap, var(--layout-default-gap));
+
+//     --_gap-count: calc(var(--_flex-repeat) - 1);
+//     --_gap-repeater-calc: calc(var(--_repeating-flex-gap) / var(--_flex-repeat) * var(--_gap-count));
+
+//     display: flex;
+//     flex-wrap: wrap;
+//     gap: var(--_repeating-flex-gap);
+
+//     >* {
+//       flex: 1 1 calc((100% / var(--_flex-repeat)) - var(--_gap-repeater-calc));
+//     }
+//   }
+
+//   .fluid-grid {
+//     --_fluid-grid-min: var(--fluid-grid-min, var(--layout-fluid-min));
+//     --_fluid-grid-gap: var(--grid-gap, var(--layout-default-gap));
+
+//     display: grid;
+//     grid-template-columns: repeat(auto-fit, minmax(min(var(--_fluid-grid-min), 100%), 1fr));
+//     gap: var(--_fluid-grid-gap);
+//   }
+
+//   .fluid-flex {
+//     --_fluid-flex-min: var(--fluid-flex-min, var(--layout-fluid-min));
+//     --_fluid-flex-gap: var(--flex-gap, var(--layout-default-gap));
+
+//     display: flex;
+//     flex-wrap: wrap;
+//     gap: var(--_fluid-flex-gap);
+
+//     >* {
+//       flex: 1 1 var(--_fluid-flex-min);
+//     }
+//   }
+// }
+
+// @layer layout-base {
+//   :root {
+//     --layout-fluid-min: 35ch;
+//     --layout-default-repeat: 1;
+//     --layout-default-gap: 30px;
+//   }
+// }

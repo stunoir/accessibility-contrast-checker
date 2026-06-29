@@ -1,0 +1,111 @@
+//== motion library and gsap - elements start hidden before animation triggers
+[data-motion],
+[data-zanim] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+[data-zanim-stagger] {
+  .cell {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+
+//== fade in
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+
+//== fade in and up
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+
+//== skeleton pulsing
+@keyframes skeletonPulser {
+  0% {
+    background-color: var(--colour-surface-skeleton);
+  }
+
+  50% {
+    background-color: var(--colour-surface-muted);
+  }
+
+  100% {
+    background-color: var(--colour-surface-skeleton);
+  }
+}
+
+
+//== page transition animations - used by view transitions api (see reference below)
+@keyframes page-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+//== view transitions api - uncomment to enable animated page transitions
+// @media (prefers-reduced-motion: no-preference) {
+//   @view-transition {
+//     navigation: auto;
+//   }
+//
+//   // apply animations to the main content snapshot
+//   main {
+//     view-transition-name: main-content;
+//   }
+//
+//   ::view-transition-old(main-content) {
+//     animation: .3s ease-out both page-out;
+//   }
+//
+//   ::view-transition-new(main-content) {
+//     animation: .3s ease-out both page-in;
+//   }
+// }

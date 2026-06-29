@@ -1,0 +1,217 @@
+//== margin and padding override utilities - generates .m-t-0 through .m-t-9 etc.
+@for $i from 0 through 9 {
+
+  .m-t-#{$i} {
+    margin-top: #{$i}rem;
+  }
+
+  .m-b-#{$i} {
+    margin-bottom: #{$i}rem;
+  }
+
+  .m-l-#{$i} {
+    margin-left: #{$i}rem;
+  }
+
+  .m-r-#{$i} {
+    margin-right: #{$i}rem;
+  }
+
+  .p-t-#{$i} {
+    padding-top: #{$i}rem;
+  }
+
+  .p-b-#{$i} {
+    padding-bottom: #{$i}rem;
+  }
+
+  .p-l-#{$i} {
+    padding-left: #{$i}rem;
+  }
+
+  .p-r-#{$i} {
+    padding-right: #{$i}rem;
+  }
+}
+
+//== screen reader / accessible focus - visually hidden but available to assistive technology
+.show-for-sr,
+.show-on-focus {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+
+  &:active,
+  &:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+  }
+}
+
+//== skip link variant - visible on focus with branded colours
+.show-for-sr {
+  background-color: #1a1a1a !important;
+  color: #fff !important;
+  display: block;
+}
+
+//== general visibility toggle classes
+.is-visible {
+  display: block !important;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
+
+//== responsive show/hide classes by breakpoint (small, medium, large)
+@media print,
+screen and (max-width: 39.99875em) {
+  .hide-for-small-only {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 0em),
+screen and (min-width: 40em) {
+  .show-for-small-only {
+    display: none !important;
+  }
+}
+
+@media print,
+screen and (min-width: 40em) {
+  .hide-for-medium {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 39.99875em) {
+  .show-for-medium {
+    display: none !important;
+  }
+}
+
+@media print,
+screen and (min-width: 40em) and (max-width: 63.99875em) {
+  .hide-for-medium-only {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 39.99875em),
+screen and (min-width: 64em) {
+  .show-for-medium-only {
+    display: none !important;
+  }
+}
+
+@media print,
+screen and (min-width: 64em) {
+  .hide-for-large {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 63.99875em) {
+  .show-for-large {
+    display: none !important;
+  }
+}
+
+@media print,
+screen and (min-width: 64em) and (max-width: 74.99875em) {
+  .hide-for-large-only {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 63.99875em),
+screen and (min-width: 75em) {
+  .show-for-large-only {
+    display: none !important;
+  }
+}
+
+//== orientation show/hide classes
+.show-for-landscape,
+.hide-for-portrait {
+  display: block !important;
+}
+
+@media screen and (orientation: landscape) {
+
+  .show-for-landscape,
+  .hide-for-portrait {
+    display: block !important;
+  }
+}
+
+@media screen and (orientation: portrait) {
+
+  .show-for-landscape,
+  .hide-for-portrait {
+    display: none !important;
+  }
+}
+
+.hide-for-landscape,
+.show-for-portrait {
+  display: none !important;
+}
+
+@media screen and (orientation: landscape) {
+
+  .hide-for-landscape,
+  .show-for-portrait {
+    display: none !important;
+  }
+}
+
+@media screen and (orientation: portrait) {
+
+  .hide-for-landscape,
+  .show-for-portrait {
+    display: block !important;
+  }
+}
+
+//== dark mode show/hide classes
+.show-for-dark-mode {
+  display: none;
+}
+
+.hide-for-dark-mode {
+  display: block;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+  .show-for-dark-mode {
+    display: block !important;
+  }
+
+  .hide-for-dark-mode {
+    display: none !important;
+  }
+}

@@ -1,0 +1,52 @@
+@use "../abstracts/variables";
+
+// ============================================================================
+//== menu - flexible list-based nav/link component with layout modifiers
+// ============================================================================
+
+.menu {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 1.875rem;
+
+  //== layout modifiers
+  &.vertical {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+
+  &.expanded li {
+    flex: 1 1 0;
+  }
+
+  &.align-center {
+    justify-content: center;
+  }
+
+  &.align-left {
+    justify-content: flex-start;
+  }
+
+  &.align-right {
+    justify-content: flex-end;
+  }
+
+  //== gap utility classes - generated from $space-flex-gaps map in abstracts/_variables.scss
+  @each $px, $rem in variables.$space-flex-gaps {
+    &.menu-gap-#{$px} {
+      gap: #{$rem};
+    }
+
+    &.menu-column-gap-#{$px} {
+      column-gap: #{$rem};
+    }
+
+    &.menu-row-gap-#{$px} {
+      row-gap: #{$rem};
+    }
+  }
+}

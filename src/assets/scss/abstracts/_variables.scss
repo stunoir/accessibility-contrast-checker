@@ -1,0 +1,119 @@
+// ============================================================================
+//== global variables
+//== requires: @use '../abstracts/variables';
+// ============================================================================
+
+
+// ----------------------------------------------------------------------------
+//== scss variables
+//== sass-only - available in scss functions and mixins, not in css
+// ----------------------------------------------------------------------------
+
+//== layout
+$layout-container-max-width: 80rem;
+
+//== breakpoints
+$breakpoint-small: 39.9375em;
+$breakpoint-medium: 40em;
+$breakpoint-medium-max: 63.9375em;
+$breakpoint-large: 64em;
+
+//== spacing - section padding-block
+$space-section: 6rem;
+$space-section-sm: 4rem;
+
+//== spacing - flex gap scale (used to generate utility classes)
+$space-flex-gaps: (
+  10: 0.625rem,
+  15: 0.9375rem,
+  20: 1.25rem,
+  30: 1.875rem
+);
+
+//== colour - status (used in scss logic e.g. form validation styles)
+$colour-status-info: #2E6EE5;
+$colour-status-success: #60b676;
+$colour-status-success-strong: #32735F;
+$colour-status-warning: #FBC02D;
+$colour-status-warning-strong: #EBA904;
+$colour-status-alert: #91071a;
+
+// ----------------------------------------------------------------------------
+//== css custom properties
+//== global design tokens - available everywhere in css via var()
+//== override these on a selector or data attribute to create themes or variants
+// ----------------------------------------------------------------------------
+
+:root {
+  interpolate-size: allow-keywords; // https://developer.mozilla.org/en-US/docs/Web/CSS/interpolate-size -- used to allow animations
+
+  //== font
+  --font-family-heading: "Roboto", sans-serif;
+  --font-family-body: "Roboto", sans-serif;
+  --font-family-icon: "icomoon";
+
+  //== layout
+  --layout-container-max-width: #{$layout-container-max-width};
+  --layout-grid-row-gap: 1.875rem;
+
+  //== colour - surface
+  --colour-surface-page: #fff;
+  --colour-surface-muted: #f8f1f6;
+  --colour-surface-strong: #f8daee;
+  --colour-surface-disabled: #e6e6e6;
+  --colour-surface-inverse: #0a0a0a;
+  --colour-surface-skeleton: #e4e4e4;
+
+  //== colour - brand
+  --colour-brand-primary: #1a1a1a;
+  --colour-brand-secondary: #3b82f6;
+  --colour-brand-tertiary: #60b676;
+
+  //== colour - text
+  --colour-text-default: #1a1a1a;
+  --colour-text-heading: #1a1a1a;
+  --colour-text-code: #0a0a0a;
+  --colour-text-link: #1a1a1a;
+  --colour-text-link-hover: #2e6ee5;
+  --colour-text-link-visited: #4c2c92;
+  --colour-text-link-active: #1a1a1a;
+
+  //== colour - status (css mirror of scss $colour-status-* vars)
+  --colour-status-info: #{$colour-status-info};
+  --colour-status-success: #{$colour-status-success};
+  --colour-status-warning: #{$colour-status-warning};
+  --colour-status-alert: #{$colour-status-alert};
+  --colour-status-success-strong: #{$colour-status-success-strong};
+  --colour-status-warning-strong: #{$colour-status-warning-strong};
+
+  //== colour - focus
+  --colour-focus-outline: #ffd000;
+  --colour-focus-text: #1a1a1a;
+  --colour-focus-ring: rgba(51, 51, 51, 0.8);
+
+  //== colour - ui
+  --colour-ui-divider: #dedede;
+  --colour-ui-divider-strong: #cacaca;
+  --colour-ui-scrollbar-track: #f1f1f1;
+}
+
+
+// ----------------------------------------------------------------------------
+//== reference - theming and colour manipulation examples
+// ----------------------------------------------------------------------------
+
+//== override tokens on a data attribute to theme a section:
+// [data-theme="dark"] {
+//   --colour-surface-page: #1a1a1a;
+//   --colour-text-default: #fff;
+//   --colour-text-heading: #fff;
+//   --colour-text-link: #fff;
+//   --colour-text-link-hover: #fff;
+// }
+
+//== colour manipulation using relative colour syntax (css):
+// --colour-test: hsl(from var(--colour-brand-secondary) h s l);
+// --colour-test-90: hsl(from var(--colour-test) h s l / 0.9); // 90% alpha transparency
+// --colour-test-10: hsl(from var(--colour-test) h s l / 0.1); // 10% alpha transparency
+// --colour-test-darken: hsl(from var(--colour-test) h s calc(l - 20)); // darkens by 20
+// --colour-test-lighten: hsl(from var(--colour-test) h s calc(l + 20)); // lightens by 20

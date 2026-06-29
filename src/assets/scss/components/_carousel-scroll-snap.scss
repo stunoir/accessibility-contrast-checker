@@ -1,0 +1,160 @@
+@use "../abstracts/mixins";
+
+//== scroll-carousel
+//== reusable css scroll-snap carousel with js-generated page dot navigation.
+//== per-instance config comes from data-cols-large / -medium / -small / -gap / -peek /
+//== -pad-block attributes (the js writes them to the scoped custom properties below).
+
+//== per-view sizing. zero-specificity (:where) defaults 
+:where(.scroll-carousel) {
+  --scroll-carousel-slide-gap: 1.875rem;
+  --scroll-carousel-cols-small: 1;
+  --scroll-carousel-cols-medium: 2;
+  --scroll-carousel-cols-large: 3;
+  --scroll-carousel-peek: 15%; //== sliver of the next card shown on single-column (small) views
+
+  //== small: cols-small per view, minus a peek so the next card hints off-screen
+  --scroll-carousel-slide-basis: calc((100% - (var(--scroll-carousel-cols-small) - 1) * var(--scroll-carousel-slide-gap)) / var(--scroll-carousel-cols-small) - var(--scroll-carousel-peek));
+
+  @include mixins.for-size(medium-up) {
+    --scroll-carousel-slide-basis: calc((100% - (var(--scroll-carousel-cols-medium) - 1) * var(--scroll-carousel-slide-gap)) / var(--scroll-carousel-cols-medium));
+  }
+
+  @include mixins.for-size(large) {
+    --scroll-carousel-slide-basis: calc((100% - (var(--scroll-carousel-cols-large) - 1) * var(--scroll-carousel-slide-gap)) / var(--scroll-carousel-cols-large));
+  }
+}
+
+.scroll-carousel {
+  //== component-scoped tokens
+  --scroll-carousel-dot-surface: #6f6f6f; //== inactive dot
+  --scroll-carousel-dot-surface-hover: #00845a;
+  --scroll-carousel-dot-surface-active: #115f66;
+  --scroll-carousel-dot-width-active: 2rem;
+  --scroll-carousel-focus-ring: var(--colour-focus-outline);
+
+  position: relative;
+  overflow-x: clip;
+}
+
+.scroll-carousel-track {
+  display: flex;
+  gap: var(--scroll-carousel-slide-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  //== reset default margins/padding on the track
+  margin: 0;
+  padding: 0;
+
+  //== hide the native scrollbar - affordance comes from the peek and the dots
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  //== visible focus when the track itself is focused (tabindex="0") for keyboard scrolling
+  &:focus-visible {
+    outline: 2px solid var(--scroll-carousel-focus-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
+}
+
+.scroll-carousel-slide {
+  flex: 0 0 var(--scroll-carousel-slide-basis);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-width: 0; //== let text inside flex children wrap rather than overflow
+
+  //== opt-in vertical breathing room (default 0) so card hover transforms or shadows are
+  padding-block: var(--scroll-carousel-slide-padding-block, 0);
+
+  //== equal height: when a slide just wraps a single element (e.g. a card), stretch it
+  //== to fill the slide (the track stretches slides to the tallest)
+  &:has(> :only-child) {
+    display: flex;
+  }
+
+  > :only-child {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+}
+
+//== dot nav - automatically hidden when the js leaves it empty (single page)
+.scroll-carousel-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.125rem;
+  margin-block-start: 1rem;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.scroll-carousel-dot {
+  //== button reset
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+
+  //== 24px tap target (WCAG 2.5.8) - the visible dot is the ::after
+  width: 1.5rem;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: width 0.3s;
+
+  &::after {
+    content: "";
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background-color: var(--scroll-carousel-dot-surface);
+    transition: width 0.2s, border-radius 0.2s, background-color 0.2s;
+  }
+
+  &:is(:hover, :focus-visible)::after {
+    background-color: var(--scroll-carousel-dot-surface-hover);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--scroll-carousel-focus-ring);
+    outline-offset: 4px;
+  }
+
+  //== active dot grows into a pill - state shown by shape and colour, not colour alone
+  &.is-active {
+    width: var(--scroll-carousel-dot-width-active);
+    min-width: var(--scroll-carousel-dot-width-active);
+
+    &::after {
+      width: var(--scroll-carousel-dot-width-active);
+      border-radius: 0.5rem;
+      background-color: var(--scroll-carousel-dot-surface-active);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    &,
+    &::after {
+      transition: none;
+    }
+  }
+}

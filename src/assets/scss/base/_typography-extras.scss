@@ -1,0 +1,20 @@
+// ============================================================================
+//== typography extras - custom per project, add or remove as needed
+// ============================================================================
+
+
+//== text colour override - use on a parent element to force light text on dark surfaces
+.light-text {
+  --colour-text-default: var(--colour-surface-page);
+  --colour-text-heading: var(--colour-surface-page);
+  --colour-text-link: var(--colour-surface-page);
+  --colour-text-link-hover: color-mix(in srgb, var(--colour-surface-page) 90%, transparent);
+}
+
+//== text colour override - use on a parent element to force dark text on light surfaces
+.dark-text {
+  --colour-text-default: var(--colour-brand-primary);
+  --colour-text-heading: var(--colour-brand-primary);
+  --colour-text-link: var(--colour-brand-primary);
+  --colour-text-link-hover: color-mix(in srgb, var(--colour-brand-primary) 70%, transparent);
+}

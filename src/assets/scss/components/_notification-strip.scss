@@ -1,0 +1,74 @@
+@use "sass:color";
+@use "sass:map";
+@use "../abstracts/variables";
+
+//== colour configuration using maps
+//== note: default is always needed - add more variants as required - main colours in _variables.scss
+$notif-colours: (
+  default: (bg: color.adjust(variables.$colour-status-info, $alpha: -.9),
+    fg: hsl(from variables.$colour-status-info h s calc(l - 40)),
+    close: variables.$colour-status-info,
+  ),
+  warning: (bg: color.adjust(variables.$colour-status-warning, $alpha: -.9),
+    fg: hsl(from variables.$colour-status-warning h s calc(l - 50)),
+    close: variables.$colour-status-warning,
+  ),
+  alert: (bg: color.adjust(variables.$colour-status-alert, $alpha: -.94),
+    fg: hsl(from variables.$colour-status-alert h s calc(l - 50)),
+    close: variables.$colour-status-alert,
+  )
+);
+
+//== mixin for variants
+@mixin notif-message($variant) {
+  $bg-color: map.get(map.get($notif-colours, $variant), bg);
+  $fg-color: map.get(map.get($notif-colours, $variant), fg);
+  $close-color: map.get(map.get($notif-colours, $variant), close);
+
+  background-color: $bg-color;
+  color: $fg-color;
+
+  .title,
+  p {
+    color: $fg-color;
+    margin: 0
+  }
+
+  // .title {
+  //   // add custom styles as needed
+  // }
+}
+
+//== global notification styling
+.notification-strip {
+  --notification-strip-padding: 2rem 0;
+
+  width: 100%;
+  padding: var(--notification-strip-padding);
+
+  //== generate default
+  @include notif-message(default);
+
+  .btn-close-notif {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    padding: .2rem;
+  }
+
+  //== generate classes for all modifiers / variants (except default)
+  @each $variant, $color in $notif-colours {
+    @if $variant !=default {
+      &--#{$variant} {
+        @include notif-message($variant);
+      }
+    }
+  }
+}
+
+//== if notification used inside the grid add further padding
+.cell {
+  .notification-strip {
+    --notification-strip-padding: 2rem;
+  }
+}
