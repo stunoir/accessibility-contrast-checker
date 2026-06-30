@@ -43,6 +43,8 @@
   position: relative;
 
   &--example {
+    display: flex;
+    align-items: center;
     background-color: var(--ui-panel-surface);
     border: 2px solid #1a1a1a;
     height: 100%;
@@ -65,7 +67,7 @@
     background-color: var(--dl-surface);
     border: 2px solid color-mix(in srgb, var(--dl-surface) 70%, black);
     padding: 1.5rem functions.clamp-value(1rem, 2rem);
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     position: relative;
 
 

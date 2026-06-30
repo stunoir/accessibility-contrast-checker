@@ -187,12 +187,12 @@ function App() {
                         style={{ '--ui-panel-surface': colourBackground, '--ui-panel-text': colourForeground }}
                       >
                         <div className='content-flow'>
-                          <h2>Example</h2>
+                          <h2>Preview</h2>
                           <p className='lead'>The quick brown fox jumps over the lazy dog.</p>
                           <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                            laboris nisi ut aliquip ex ea commodo consequat.
+                            This preview shows your chosen colours applied to real text. If the ratios fail and content
+                            is difficult to read, your combination will cause problems for users in real-world
+                            conditions.
                           </p>
                         </div>
                         <span aria-hidden='true' className='material-symbols-rounded ui-icon'>
