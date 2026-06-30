@@ -60,10 +60,18 @@
 
 .colour-results {
   dl {
-    background-color: var(--colour-surface-strong);
+    --dl-surface: var(--colour-surface-strong);
+
+    background-color: var(--dl-surface);
+    border: 2px solid color-mix(in srgb, var(--dl-surface) 70%, black);
     padding: 1.5rem functions.clamp-value(1rem, 2rem);
     border-radius: 1rem;
     position: relative;
+
+
+    &.pass {
+      --dl-surface: #dcfce7;
+    }
 
     >* {
       margin: 0;

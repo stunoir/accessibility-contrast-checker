@@ -157,7 +157,7 @@ function App() {
                         <div className='ui-grid medium-up-2 small-up-2 colour-results'>
                           {colourResults.results.map((resultItem) => (
                             <div key={resultItem.id} className='cell'>
-                              <dl>
+                              <dl className={resultItem.pass ? 'pass' : 'fail'}>
                                 <dt className='text-md'>{resultItem.label}</dt>
                                 <dd className='text-sm'>
                                   {resultItem.pass ? 'Pass' : 'Fail'}
