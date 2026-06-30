@@ -234,6 +234,7 @@ fieldset {
 
     span {
       color: var(--msg-caption-text);
+      font-size: inherit;
     }
 
     &--success {

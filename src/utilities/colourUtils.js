@@ -45,3 +45,8 @@ export function expandHex(hex) {
 
   return hex
 }
+
+//== validate the hex
+export function isValidHex(hex) {
+  return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex)
+}
