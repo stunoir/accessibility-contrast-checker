@@ -41,6 +41,7 @@
   padding: functions.clamp-value(1.5rem, 2.5rem) functions.clamp-value(1.5rem, 3rem);
   border-radius: 1rem;
   position: relative;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   &--example {
     display: flex;
@@ -60,7 +61,60 @@
   }
 }
 
+.results-reveal {
+  >.cell {
+    animation-name: fadeInUp;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+
+  >.cell:nth-child(2) {
+    animation-delay: 0.12s;
+  }
+}
+
+//== colour swatches - shows the chosen foreground/background alongside the result
+.colour-swatch-container {
+  margin-block-end: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.colour-swatch {
+  --swatch: transparent;
+
+  display: inline-block;
+  inline-size: 1.3rem;
+  block-size: 1.3rem;
+  background-color: var(--swatch);
+  border: 2px solid #1a1a1a;
+  border-radius: 0.1875rem;
+  flex-shrink: 0;
+
+  .colour-swatch-value {
+    text-transform: uppercase;
+  }
+}
+
+
 .colour-results {
+
+  //== cascade the individual result cards in after the panel reveals
+  .cell {
+    animation-name: fadeInUp;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: both;
+  }
+
+  @for $i from 1 through 6 {
+    .cell:nth-child(#{$i}) {
+      animation-delay: 0.05s + $i * 0.08s;
+    }
+  }
+
   dl {
     --dl-surface: var(--colour-surface-strong);
 

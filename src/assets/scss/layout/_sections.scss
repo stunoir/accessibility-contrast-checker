@@ -19,6 +19,10 @@ $section-padding-half-sm: math.div($section-padding-sm, 2);
 .wrapper-section {
   padding-block: $section-padding;
   overflow-x: clip;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+
 
   @include mixins.for-size(small-only) {
     padding-block: $section-padding-sm;

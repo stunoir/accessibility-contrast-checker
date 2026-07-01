@@ -26,6 +26,9 @@ function App() {
     //== clamp to max length (#rrggbb = 7 chars)
     value = value.slice(0, 7)
 
+    //== clear any existing results so stale output isn't shown against edited inputs
+    setColourResults(null)
+
     if (inputType === 'foreground') setColourForeground(value)
     if (inputType === 'background') setColourBackground(value)
   }
@@ -127,7 +130,7 @@ function App() {
                 </div>
                 <div className='medium-6 large-3 cell'>
                   <button className='btn-main btn-main--expanded' type='submit'>
-                    Check Contrast
+                    Check contrast
                     <span aria-hidden='true' className='material-symbols-rounded'>
                       check
                     </span>
@@ -144,13 +147,38 @@ function App() {
             <div aria-live='polite'>
               {colourResults && (
                 <>
-                  <div className='ui-grid'>
+                  <div className='ui-grid results-reveal'>
                     <div className='large-6 cell'>
                       {/* results */}
                       <div className='ui-panel'>
                         <div className='ui-grid'>
                           <div className='medium-12 cell'>
-                            <h2 className='text-lg'>Contrast Ratio: {colourResults.ratio}</h2>
+                            <h2 className='text-lg'>
+                              Contrast ratio: <strong>{colourResults.ratio}</strong>
+                            </h2>
+                          </div>
+                        </div>
+
+                        <div className='ui-grid medium-up-2'>
+                          <div className='cell'>
+                            <div className='colour-swatch-container'>
+                              <span
+                                aria-hidden='true'
+                                className='colour-swatch'
+                                style={{ '--swatch': colourForeground }}
+                              ></span>
+                              foreground: <span className='colour-swatch-value'>{colourForeground}</span>
+                            </div>
+                          </div>
+                          <div className='cell'>
+                            <div className='colour-swatch-container'>
+                              <span
+                                aria-hidden='true'
+                                className='colour-swatch'
+                                style={{ '--swatch': colourBackground }}
+                              ></span>
+                              background: <span className='colour-swatch-value'>{colourBackground}</span>
+                            </div>
                           </div>
                         </div>
 

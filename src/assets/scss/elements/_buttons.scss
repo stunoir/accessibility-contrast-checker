@@ -64,7 +64,7 @@ $base-button-colours: (
   justify-content: center;
   align-items: center;
   gap: 0.625rem;
-  transition: color 0.3s, background-color 0.3s, border 0.3s;
+  transition: color 0.3s, background-color 0.3s, border 0.3s, transform 0.2s ease;
   text-decoration: none;
   cursor: pointer;
   appearance: none;
@@ -83,6 +83,15 @@ $base-button-colours: (
   &--xs {
     --button-padding: 0.5rem;
   }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  //== nudge the trailing icon on hover/focus (matches .cta-text)
+  &:is(:hover, :focus-visible) span {
+    transform: translateX(3px);
+  }
 }
 
 //== mixin for button modifier style
@@ -100,7 +109,7 @@ $base-button-colours: (
     span {
       color: $text-color;
       font-weight: 400;
-      transition: color .3s;
+      transition: color .3s, transform .3s;
     }
   }
 }
